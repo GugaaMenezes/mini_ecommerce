@@ -1,7 +1,7 @@
 
 //Compara o Novo Preço, com o preço de venda atual e o preço de custo
 
-function calculateNewPrice(productCode, newPrice, salesPrice, costPrice) {
+function calculateNewPrice(productCode, newPrice, salesPrice, costPrice, productName) {
 
 
     // Percentual máximo de variação do preço 
@@ -17,7 +17,8 @@ function calculateNewPrice(productCode, newPrice, salesPrice, costPrice) {
             reason: "Produto teve uma variação maior que 10%",
             productCode: productCode,
             newPrice: newPrice,
-            oldPrice: salesPrice
+            oldPrice: salesPrice,
+            productName : productName
         }
 
     // Verifica se o Novo Preço é maior que o preço de custo
@@ -27,11 +28,11 @@ function calculateNewPrice(productCode, newPrice, salesPrice, costPrice) {
             reason: "Preço de venda inferior ao preço de custo",
             productCode: productCode,
             newPrice: newPrice,
-            costPrice: costPrice
+            costPrice: costPrice, productName : productName
         };
     }
 
-    return { status: "success", productCode: productCode, newPrice: newPrice };
+    return { status: "success", productCode: productCode, newPrice: newPrice, productName : productName };
     
 }
 

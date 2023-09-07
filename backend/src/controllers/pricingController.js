@@ -32,18 +32,19 @@ class PricingController {
                     notFound.push({status: "not_found", reason :  "Produto (product_code: " + productCode + ") não encontrado."});
                     continue; 
                 }
-                // TODO COntinuar mcom a lógica dos packs
                 const salesPrice = existingProduct[0]["sales_price"];
                 const costPrice = existingProduct[0]["cost_price"];
                 const productPackId  = existingProduct[0]["pack_id"];
                 const productPackQty  = existingProduct[0]["qty"];
+                const productName  = existingProduct[0]["name"];
 
                 // Verifica se o preço se adequa a regra de negócio
                 const resultCalculatedNewPrice = calculateNewPrice(
                     productCode,
                     newPrice,
                     salesPrice,
-                    costPrice
+                    costPrice,
+                    productName
                 );
                 // Atualizar o banco de dados com o novo preço
                 switch (resultCalculatedNewPrice.status) {
@@ -63,6 +64,7 @@ class PricingController {
                             );
 
                             const pricePack = existingPack[0]["sales_price"];
+                            const namePack = existingPack[0]["name"];
 
                             const resultvarPricePack = varPricePack(salesPrice, newPrice, productPackQty);
 
@@ -84,7 +86,7 @@ class PricingController {
                                 productPackId,
                             ]);
 
-                            packsUpdated.push({status: "success", productPackId :  productPackId,  productCode : productCode});
+                            packsUpdated.push({status: "success", productPackId :  productPackId,  productCode : productCode, namePack : namePack});
 
 
                         // Caso não seja vendido em pack, atualiza apenas o valor unitário do produto
