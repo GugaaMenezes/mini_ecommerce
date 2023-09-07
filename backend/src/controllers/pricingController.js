@@ -19,8 +19,7 @@ class PricingController {
                 const sql = "SELECT products.*, packs.pack_id, packs.qty FROM products LEFT JOIN packs ON products.code = packs.product_id WHERE products.`code` = ?";
                 const existingProduct = await query(
                     sql,
-                    [product.product_code],
-                    [product.new_price]
+                    [product.product_code]
                 );
 
                 const productCode = Number(product.product_code);
@@ -54,25 +53,28 @@ class PricingController {
                             
                         if (productPackId != null) {
             
-                                const resultvarPricePack = varPricePack(salesPrice, newPrice, productPackQty);
-                                console.log(resultvarPricePack)
+                            const sql = "SELECT * FROM products WHERE code = ?";
+                            const existingPack = await query(
+                                sql,
+                                productPackId
+                            );
 
-                                const priceChangePacks = resultvarPricePack.priceChangePacks
-                                const newPriceChangePacks = priceChangePacks  + salesPrice
-
-                                console.log(productPackId)
-                                console.log(newPriceChangePacks)
+                            const pricePack = existingPack[0]["sales_price"];
 
 
-                                // const sql = "SELECT * FROM products WHERE code = ?";
-                                // const existingPack = await query(
-                                //     sql,
-                                //     [product.product_code],
-                                //     [product.new_price]
-                                // );
+                            console.log(existingPack)
+                            console.log(pricePack)
 
-                                // const productPackId  = existingProduct[0]["pack_id"];
-                                // const productPackQty  = existingProduct[0]["qty"];
+                            const resultvarPricePack = varPricePack(salesPrice, newPrice, productPackQty);
+                            console.log(resultvarPricePack)
+
+                            const priceChangePacks = resultvarPricePack.priceChangePacks
+                            const newPriceChangePacks = priceChangePacks  + pricePack
+
+                            console.log(priceChangePacks)
+                            console.log(newPriceChangePacks)
+
+
 
 
                         } else {
