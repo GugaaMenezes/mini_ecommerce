@@ -1,4 +1,4 @@
-const Product = require("../models/product");
+// const Product = require("../models/product");
 const csvParser = require("../utils/csvParser");
 const { query } = require("../config/database");
 const { calculateNewPrice } = require("../controllers/functionsPricing"); //Importação das regras de negócio
@@ -12,25 +12,31 @@ class PricingController {
             const productsError = [];
             const productsSuccess = [];
 
+
             for (const product of pricingData) {
                 // Consulta ao banco de dados para obter o produto com base no product_code
-                const sql = "SELECT * FROM products WHERE code = ?";
+                
+                const sql = "SELECT products.*, packs.pack_id FROM products LEFT JOIN packs ON products.code = packs.product_id WHERE products.`code` = ?";
+                // const sql = "SELECT * FROM products WHERE code = ?";
                 const existingProduct = await query(
                     sql,
                     [product.product_code],
                     [product.new_price]
                 );
 
-                const productCode = product.product_code;
-                const newPrice = product.new_price;
-                const salesPrice = existingProduct[0]["sales_price"];
-                const costPrice = existingProduct[0]["cost_price"];
-
+                
                 // Pular para o próximo produto se não for encontrado
                 if (!existingProduct.length) {
                     console.error("Produto não encontrado no banco de dados.");
                     continue; 
                 }
+                
+                console.log(existingProduct[0]["pack_id"]);
+                const productCode = product.product_code;
+                const newPrice = product.new_price;
+                const salesPrice = existingProduct[0]["sales_price"];
+                const costPrice = existingProduct[0]["cost_price"];
+
                 // Verifica se o preço se adequa a regra de negócio
                 const resultCalculatedNewPrice = calculateNewPrice(
                     productCode,
@@ -46,11 +52,14 @@ class PricingController {
                         productsError.push(resultCalculatedNewPrice);
                         break;
                     case "success":
+
+                    // Verificar se o produto 
+                    
                         const updateSql =
                             "UPDATE products SET sales_price = ? WHERE code = ?";
                         await query(updateSql, [
-                            product.new_price,
-                            product.product_code,
+                            newPrice,
+                            productCode,
                         ]);
                         productsSuccess.push(resultCalculatedNewPrice);
                 }
