@@ -1,7 +1,7 @@
 // const Product = require("../models/product");
 const csvParser = require("../utils/csvParser");
 const { query } = require("../config/database");
-const { calculateNewPrice } = require("../controllers/functionsPricing"); //Importação das regras de negócio
+const { calculateNewPrice , varPricePack } = require("../controllers/functionsPricing"); //Importação das regras de negócio
 
 class PricingController {
     static async validateAndProcessPricingFile(req, res, connection) {
@@ -16,26 +16,26 @@ class PricingController {
             for (const product of pricingData) {
                 // Consulta ao banco de dados para obter o produto com base no product_code
                 
-                const sql = "SELECT products.*, packs.pack_id FROM products LEFT JOIN packs ON products.code = packs.product_id WHERE products.`code` = ?";
-                // const sql = "SELECT * FROM products WHERE code = ?";
+                const sql = "SELECT products.*, packs.pack_id, packs.qty FROM products LEFT JOIN packs ON products.code = packs.product_id WHERE products.`code` = ?";
                 const existingProduct = await query(
                     sql,
                     [product.product_code],
                     [product.new_price]
                 );
 
+                const productCode = Number(product.product_code);
+                const newPrice = Number(product.new_price);
                 
                 // Pular para o próximo produto se não for encontrado
                 if (!existingProduct.length) {
-                    console.error("Produto não encontrado no banco de dados.");
+                    console.error("Produto (product_code: " + productCode + ") não encontrado.");
                     continue; 
                 }
-                
-                console.log(existingProduct[0]["pack_id"]);
-                const productCode = product.product_code;
-                const newPrice = product.new_price;
+                // TODO COntinuar mcom a lógica dos packs
                 const salesPrice = existingProduct[0]["sales_price"];
                 const costPrice = existingProduct[0]["cost_price"];
+                const productPackId  = existingProduct[0]["pack_id"];
+                const productPackQty  = existingProduct[0]["qty"];
 
                 // Verifica se o preço se adequa a regra de negócio
                 const resultCalculatedNewPrice = calculateNewPrice(
@@ -44,27 +44,53 @@ class PricingController {
                     salesPrice,
                     costPrice
                 );
-
                 // Atualizar o banco de dados com o novo preço
                 switch (resultCalculatedNewPrice.status) {
                     case "error":
-
+                        
                         productsError.push(resultCalculatedNewPrice);
                         break;
-                    case "success":
+                        case "success":
+                            
+                        if (productPackId != null) {
+            
+                                const resultvarPricePack = varPricePack(salesPrice, newPrice, productPackQty);
+                                console.log(resultvarPricePack)
 
-                    // Verificar se o produto 
-                    
-                        const updateSql =
-                            "UPDATE products SET sales_price = ? WHERE code = ?";
-                        await query(updateSql, [
-                            newPrice,
-                            productCode,
-                        ]);
+                                const priceChangePacks = resultvarPricePack.priceChangePacks
+                                const newPriceChangePacks = priceChangePacks  + salesPrice
+
+                                console.log(productPackId)
+                                console.log(newPriceChangePacks)
+
+
+                                // const sql = "SELECT * FROM products WHERE code = ?";
+                                // const existingPack = await query(
+                                //     sql,
+                                //     [product.product_code],
+                                //     [product.new_price]
+                                // );
+
+                                // const productPackId  = existingProduct[0]["pack_id"];
+                                // const productPackQty  = existingProduct[0]["qty"];
+
+
+                        } else {
+                            
+                            // Verificar se existe um pack do produto
+                            
+                                // const updateSql =
+                                //     "UPDATE products SET sales_price = ? WHERE code = ?";
+                                // await query(updateSql, [
+                                //     newPrice,
+                                //     productCode,
+                                // ]);
+                        }
+
                         productsSuccess.push(resultCalculatedNewPrice);
                 }
             }
-            console.log(productsError);
+            // console.log(productsError);
             console.log("----------------------------------------------------");
             console.log(productsSuccess);
 
