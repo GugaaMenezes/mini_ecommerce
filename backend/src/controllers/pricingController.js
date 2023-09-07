@@ -108,7 +108,7 @@ class PricingController {
         } catch (error) {
             console.error("Erro na validação/processamento do arquivo:", error);
             res.status(500).json({
-                error: "Erro na validação/processamento do arquivo",
+                error: "Erro ao enviar os dados do arquivo",
             });
         }
     }
