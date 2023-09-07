@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { updatePricing } from "../../services/api";
 import { Box, FormControl, Input, Button } from "@mui/material";
 
-function FormularioEnvio() {
+function Tabela() {
     const [file, setFile] = useState<File | null>(null);
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -54,4 +54,4 @@ function FormularioEnvio() {
     );
 }
 
-export default FormularioEnvio;
+export default Tabela;

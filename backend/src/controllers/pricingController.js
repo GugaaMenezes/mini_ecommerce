@@ -29,7 +29,7 @@ class PricingController {
                 
                 // Pular para o próximo produto se não for encontrado
                 if (!existingProduct.length) {
-                    notFound.push({status: "not_found", reason :  "Produto (product_code: " + productCode + ") não encontrado."});
+                    notFound.push({status: "not_found", productCode : productCode, reason :  "Produto não encontrado."});
                     continue; 
                 }
                 const salesPrice = existingProduct[0]["sales_price"];

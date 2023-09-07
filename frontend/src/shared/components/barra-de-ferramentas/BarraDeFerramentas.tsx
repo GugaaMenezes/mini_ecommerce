@@ -1,4 +1,4 @@
-import { Box, Button, Paper, useTheme } from "@mui/material";
+import { Box, Paper, useTheme } from "@mui/material";
 
 
 export const BarraDeFerramentas: React.FC = () =>{
@@ -8,7 +8,6 @@ export const BarraDeFerramentas: React.FC = () =>{
     return (
         <Box height={theme.spacing(5)} component={Paper}>
 
-            <Button>Novo</Button>
         </Box>
     );
 };

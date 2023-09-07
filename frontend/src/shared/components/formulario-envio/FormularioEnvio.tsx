@@ -23,10 +23,10 @@ interface State extends SnackbarOrigin {
     severity: "success" | "error" | "warning" | "info";
     responseData: {
         message: string;
-        productsSuccess: Array<{ productCode: number; newPrice: number }>;
-        packsUpdated: Array<{ status: string; productPackId: number; productCode: number }>;
-        notFound: Array<{ status: string; reason: string }>;
-        productsError: Array<{ status: string; reason: string; productCode: number; newPrice: number; oldPrice: number }>;
+        productsSuccess: Array<{ productCode: number; newPrice: number; productName : string }>;
+        packsUpdated: Array<{ productPackId: number; productCode: number; namePack : string  }>;
+        notFound: Array<{ productCode: number; reason: string }>;
+        productsError: Array<{ reason: string; productCode: number; newPrice: number; oldPrice: number, productName : string }>;
     } | null;
 }
 
@@ -126,20 +126,22 @@ const FormularioEnvio = () => {
 
             {responseData && responseData.productsSuccess.length > 0 && (
                 <div>
-                    <h2>Produtos com Sucesso:</h2>
+                    <h2>Produtos atualizados com Sucesso:</h2>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead>
                                 <TableRow>
+                                    <TableCell>Code</TableCell>
                                     <TableCell>Produto</TableCell>
                                     <TableCell>Novo Preço</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {responseData.productsSuccess.map((product: { productCode: number; newPrice: number }, index: number) => (
+                                {responseData.productsSuccess.map((product: {productName : string ; productCode: number; newPrice: number }, index: number) => (
                                     <TableRow key={index}>
                                         <TableCell>{product.productCode}</TableCell>
-                                        <TableCell>{product.newPrice}</TableCell>
+                                        <TableCell>{product.productName}</TableCell>
+                                        <TableCell>R$ {product.newPrice}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -155,14 +157,16 @@ const FormularioEnvio = () => {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Id Pack</TableCell>
+                                    <TableCell>Code</TableCell>
+                                    <TableCell>Pack</TableCell>
                                     <TableCell>Id Produto</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {responseData.packsUpdated.map((product: { productPackId: number; productCode: number }, index: number) => (
+                                {responseData.packsUpdated.map((product: { productPackId: number; productCode: number; namePack : string }, index: number) => (
                                     <TableRow key={index}>
                                         <TableCell>{product.productPackId}</TableCell>
+                                        <TableCell>{product.namePack}</TableCell>
                                         <TableCell>{product.productCode}</TableCell>
                                     </TableRow>
                                 ))}
@@ -179,18 +183,20 @@ const FormularioEnvio = () => {
                         <Table>
                             <TableHead>
                                 <TableRow>
+                                    <TableCell>Code</TableCell>
                                     <TableCell>Produto</TableCell>
-                                    <TableCell>Preço Antigo</TableCell>
                                     <TableCell>Novo Preço</TableCell>
+                                    <TableCell>Motivo</TableCell>
                                     <TableCell>Motivo</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {responseData.productsError.map((product: { productCode: number; oldPrice: number; newPrice: number; reason: string }, index: number) => (
+                                {responseData.productsError.map((product: { productCode: number; oldPrice: number; newPrice: number; reason: string; productName : string }, index: number) => (
                                     <TableRow key={index}>
                                         <TableCell>{product.productCode}</TableCell>
-                                        <TableCell>{product.oldPrice}</TableCell>
+                                        <TableCell>{product.productName}</TableCell>
                                         <TableCell>{product.newPrice}</TableCell>
+                                        <TableCell>{product.oldPrice}</TableCell>
                                         <TableCell>{product.reason}</TableCell>
                                     </TableRow>
                                 ))}
@@ -207,18 +213,14 @@ const FormularioEnvio = () => {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Produto</TableCell>
-                                    <TableCell>Preço Antigo</TableCell>
-                                    <TableCell>Novo Preço</TableCell>
+                                    <TableCell>Code</TableCell>
                                     <TableCell>Motivo</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {responseData.productsError.map((product: { productCode: number; oldPrice: number; newPrice: number; reason: string }, index: number) => (
+                                {responseData.notFound.map((product: { productCode: number; reason: string }, index: number) => (
                                     <TableRow key={index}>
                                         <TableCell>{product.productCode}</TableCell>
-                                        <TableCell>{product.oldPrice}</TableCell>
-                                        <TableCell>{product.newPrice}</TableCell>
                                         <TableCell>{product.reason}</TableCell>
                                     </TableRow>
                                 ))}
