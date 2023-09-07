@@ -11,6 +11,7 @@ class PricingController {
 
             const productsError = [];
             const productsSuccess = [];
+            const packsUpdated = [];
 
 
             for (const product of pricingData) {
@@ -51,8 +52,9 @@ class PricingController {
                         break;
                         case "success":
                             
+                        //Verifica se o produto é vendido em Packs
                         if (productPackId != null) {
-            
+                            //Pesquisa o Pack no banco de dados, 
                             const sql = "SELECT * FROM products WHERE code = ?";
                             const existingPack = await query(
                                 sql,
@@ -61,42 +63,47 @@ class PricingController {
 
                             const pricePack = existingPack[0]["sales_price"];
 
-
-                            console.log(existingPack)
-                            console.log(pricePack)
-
                             const resultvarPricePack = varPricePack(salesPrice, newPrice, productPackQty);
-                            console.log(resultvarPricePack)
 
                             const priceChangePacks = resultvarPricePack.priceChangePacks
-                            const newPriceChangePacks = priceChangePacks  + pricePack
+                            const newPricePacks = priceChangePacks  + pricePack
+                            //Atualiza no banco de dados, o novo valor do produto
+                            const updateProduct =
+                                "UPDATE products SET sales_price = ? WHERE code = ?";
+                            await query(updateProduct, [
+                                newPrice,
+                                productCode,
+                            ]);
 
-                            console.log(priceChangePacks)
-                            console.log(newPriceChangePacks)
+                            //Atualiza no banco de dados, o novo valor do Pack
+                            const updatePack =
+                                "UPDATE products SET sales_price = ? WHERE code = ?";
+                            await query(updatePack, [
+                                newPricePacks,
+                                productPackId,
+                            ]);
+
+                            packsUpdated.push({status: "success", productPackId :  productPackId,  productCode : productCode});
 
 
-
-
+                        // Caso não seja vendido em pack, atualiza apenas o valor unitário do produto
                         } else {
                             
-                            // Verificar se existe um pack do produto
+                            //Atualiza no banco de dados, o novo valor do produto
                             
-                                // const updateSql =
-                                //     "UPDATE products SET sales_price = ? WHERE code = ?";
-                                // await query(updateSql, [
-                                //     newPrice,
-                                //     productCode,
-                                // ]);
+                                const updateSql =
+                                    "UPDATE products SET sales_price = ? WHERE code = ?";
+                                await query(updateSql, [
+                                    newPrice,
+                                    productCode,
+                                ]);
                         }
 
                         productsSuccess.push(resultCalculatedNewPrice);
                 }
             }
-            // console.log(productsError);
-            console.log("----------------------------------------------------");
-            console.log(productsSuccess);
 
-            res.status(200).json({ message: "Preços atualizados com sucesso" });
+            res.status(200).json({ message: "Preços atualizados com sucesso", productsSuccess : productsSuccess , packsUpdated : packsUpdated, productsError : productsError});
         } catch (error) {
             console.error("Erro na validação/processamento do arquivo:", error);
             res.status(500).json({
