@@ -12,6 +12,7 @@ class PricingController {
             const productsError = [];
             const productsSuccess = [];
             const packsUpdated = [];
+            const notFound = [];
 
 
             for (const product of pricingData) {
@@ -28,7 +29,7 @@ class PricingController {
                 
                 // Pular para o próximo produto se não for encontrado
                 if (!existingProduct.length) {
-                    console.error("Produto (product_code: " + productCode + ") não encontrado.");
+                    notFound.push({status: "not_found", reason :  "Produto (product_code: " + productCode + ") não encontrado."});
                     continue; 
                 }
                 // TODO COntinuar mcom a lógica dos packs
@@ -103,7 +104,7 @@ class PricingController {
                 }
             }
 
-            res.status(200).json({ message: "Preços atualizados com sucesso", productsSuccess : productsSuccess , packsUpdated : packsUpdated, productsError : productsError});
+            res.status(200).json({ message: "Preços atualizados com sucesso", productsSuccess : productsSuccess , packsUpdated : packsUpdated, notFound : notFound ,productsError : productsError});
         } catch (error) {
             console.error("Erro na validação/processamento do arquivo:", error);
             res.status(500).json({
