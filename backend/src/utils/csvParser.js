@@ -9,7 +9,6 @@ class CSVParser {
             fs.createReadStream(filePath)
                 .pipe(csv())
                 .on("data", (data) => {
-                    // Processar cada linha do CSV conforme necessário
                     results.push(data);
                 })
                 .on("end", () => {

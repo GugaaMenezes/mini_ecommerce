@@ -10,7 +10,7 @@ const dbConfig = {
 
 const connection = mysql.createConnection(dbConfig);
 
-// Conectar ao banco de dados
+// Conexão com o banco de dados
 connection.connect((err) => {
     if (err) {
         console.error("Erro ao conectar ao banco de dados:", err);
@@ -19,7 +19,6 @@ connection.connect((err) => {
     }
 });
 
-// Exportar a função query
 function query(sql, values) {
     return new Promise((resolve, reject) => {
         connection.query(sql, values, (error, results) => {
@@ -32,4 +31,4 @@ function query(sql, values) {
     });
 }
 
-module.exports = { connection, query }; // Exporte a função query
+module.exports = { connection, query };
