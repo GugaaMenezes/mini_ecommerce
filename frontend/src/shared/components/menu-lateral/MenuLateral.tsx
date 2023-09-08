@@ -58,7 +58,7 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
                     <Box width="100%" height={theme.spacing(20)} display="flex" alignItems="center" justifyContent="center">
                         <Avatar
                             sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
-                            alt="Gustavo Menezes" src="/static/images/avatar/1.jpg"
+                            alt="Gustavo Menezes" src="https://media.licdn.com/dms/image/C4D0BAQFEJ0yrCSp-fw/company-logo_200_200/0/1621454624147?e=1701907200&v=beta&t=3cb-TYGZILSdNu_OYfnBWOG_4zklB8S9G41GPAnakXY"
                         />
                     </Box>
                     <Divider />

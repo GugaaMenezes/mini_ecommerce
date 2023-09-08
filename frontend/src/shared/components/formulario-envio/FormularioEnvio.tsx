@@ -1,23 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { updatePricing } from "../../services/api";
-import {
-    Box,
-    FormControl,
-    Input,
-    Button,
-    Snackbar,
-    Alert,
-    SnackbarOrigin,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Typography,
-    Container,
-} from "@mui/material";
+import { Box, FormControl, Input, Button, Snackbar, Alert, SnackbarOrigin, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Container, } from "@mui/material";
 
 interface State extends SnackbarOrigin {
     open: boolean;
