@@ -24,7 +24,7 @@ export const AppRoutes = () => {
             {
                 label: "Documentação",
                 icon: "article",
-                path: "/docs",
+                path: "/api/api-docs",
             }
         ]);
     }, []);
@@ -34,7 +34,7 @@ export const AppRoutes = () => {
         <Routes>
             <Route path="/" element={< Inicio />} />
             <Route path="/atualizar-precos" element={<Dashboard />} />
-            <Route path="/docs" element={<SwaggerUI />} />
+            <Route path="/api/api-docs" element={<SwaggerUI />} />
             
             <Route path="*" element={<Navigate to="/" />} />
         </Routes>

@@ -7,7 +7,7 @@ const SwaggerDoc = () => {
         <div className="SwaggerDoc">
             <h1>Documentação da API</h1>
             <SwaggerUI
-                url="api/api-docs" // URL da documentação Swagger do servidor Node.js
+                url="/api/api-docs" // URL da documentação Swagger do servidor Node.js
             />
         </div>
     );
