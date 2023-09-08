@@ -20,7 +20,7 @@ const TabelaProdutos = () => {
         try {
             const response = await getProducts();
             console.log(response!.data);
-            setProducts(response!.data.productsSuccess); // Acessar produtos de sucesso corrigido
+            setProducts(response!.data.products); // Acessar produtos de sucesso corrigido
         } catch (error) {
             console.error("Erro ao buscar produtos:", error);
         }

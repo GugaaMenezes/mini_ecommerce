@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const API_PRODUCTS = "http://localhost:5000/api/pricing";
+const API_PRICING = "http://localhost:5000/api/pricing";
+const API_PRODUCTS = "http://localhost:5000/api/products";
 
 export const updatePricing = async (data: unknown) => {
     try {
-        return await axios.post(API_PRODUCTS, data);
+        return await axios.post(API_PRICING, data);
     } catch (error) {
         console.log("Error enviar planilha", error);
     }
