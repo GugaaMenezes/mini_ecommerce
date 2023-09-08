@@ -1,4 +1,3 @@
-// const Product = require("../models/product");
 const csvParser = require("../utils/csvParser");
 const { query } = require("../config/database");
 const { calculateNewPrice , varPricePack } = require("../controllers/functionsPricing"); //Importação das regras de negócio
