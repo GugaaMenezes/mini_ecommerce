@@ -2,7 +2,7 @@ const swaggerJSDoc = require("swagger-jsdoc");
 
 const options = {
     definition: {
-        openapi: "3.0.0", // Versão do Swagger
+        openapi: "3.0.0", // Versão da especificação Swagger
         info: {
             title: "Mini Ecommerce",
             version: "1.0.0",
