@@ -1,13 +1,16 @@
 {
-    "name": "projeto",
+    "name": "mini_ecommerce",
     "version": "1.0.0",
     "scripts": {
         "start:backend": "node backend/src/server.js",
         "start:frontend": "cd frontend && npm start",
         "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
     },
+    "author": "gustavo_menezes",
     "dependencies": {
         "concurrently": "^6.5.1",
-        "cors": "^2.8.5"
+        "cors": "^2.8.5",
+        "swagger-ui-dist": "^5.6.2",
+        "swagger-ui-react": "^5.6.2"
     }
 }

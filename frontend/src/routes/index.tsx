@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { useDrawerContext } from "../shared/contexts";
-import { Dashboard, Inicio } from "../pages";
+import { Dashboard, Inicio, SwaggerUI } from "../pages";
 
 
 
@@ -20,6 +20,11 @@ export const AppRoutes = () => {
                 label: "Atualizar Preços",
                 icon: "$",
                 path: "/atualizar-precos",
+            },
+            {
+                label: "Documentação",
+                icon: "article",
+                path: "/docs",
             }
         ]);
     }, []);
@@ -29,8 +34,9 @@ export const AppRoutes = () => {
         <Routes>
             <Route path="/" element={< Inicio />} />
             <Route path="/atualizar-precos" element={<Dashboard />} />
-
-            <Route path="*" element={<Navigate to="/pagina-inicial" />} />
+            <Route path="/docs" element={<SwaggerUI />} />
+            
+            <Route path="*" element={<Navigate to="/" />} />
         </Routes>
 
     );
