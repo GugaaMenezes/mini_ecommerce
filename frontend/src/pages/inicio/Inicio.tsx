@@ -1,21 +1,21 @@
 import { Box } from "@mui/material";
 import { BarraDeFerramentas } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
-import FormularioEnvio from "../../shared/components/formulario-envio/FormularioEnvio";
+import Tabela from "../../shared/components/tabela-produtos/TabelaProdutos";
 
 
-export const Dashboard = () => {
+export const Inicio = () => {
 
     return (
         <LayoutBaseDePagina
-            titulo="Atualizar Preço dos Produtos"
+            titulo="Página principal"
             barraDeFerramentas={(
                 <BarraDeFerramentas />
             )}
         >
 
             <Box>
-                <FormularioEnvio />
+                <Tabela />
 
             </Box>
 
