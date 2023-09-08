@@ -1,0 +1,31 @@
+mini_ecommerce@1.0.0 D:\mini_ecommerce\backend
+├── @babel/core@7.22.15
+├── @babel/node@7.22.15
+├── @babel/preset-env@7.22.15
+├── ansi-regex@5.0.1 extraneous
+├── body-parser@1.20.2
+├── cliui@8.0.1 extraneous
+├── concurrently@8.2.1 extraneous
+├── csv-parser@3.0.0
+├── date-fns@2.30.0 extraneous
+├── emoji-regex@8.0.0 extraneous
+├── express@4.18.2
+├── fs@0.0.1-security
+├── get-caller-file@2.0.5 extraneous
+├── is-fullwidth-code-point@3.0.0 extraneous
+├── lodash@4.17.21 extraneous
+├── multer@1.4.4
+├── mysql@2.18.1
+├── require-directory@2.1.1 extraneous
+├── rxjs@7.8.1 extraneous
+├── shell-quote@1.8.1 extraneous
+├── spawn-command@0.0.2 extraneous
+├── string-width@4.2.3 extraneous
+├── strip-ansi@6.0.1 extraneous
+├── tree-kill@1.2.2 extraneous
+├── tslib@2.6.2 extraneous
+├── wrap-ansi@7.0.0 extraneous
+├── y18n@5.0.8 extraneous
+├── yargs-parser@21.1.1 extraneous
+└── yargs@17.7.2 extraneous
+

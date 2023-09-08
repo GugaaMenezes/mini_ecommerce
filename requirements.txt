@@ -1,0 +1,4 @@
+projeto@1.0.0 D:\mini_ecommerce
+├── concurrently@6.5.1
+└── cors@2.8.5
+

@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
-const path = require("path");
 const bodyParser = require("body-parser");
-const apiRoutes = require("./routes/api"); // Suas rotas de API
+const apiRoutes = require("./routes/api");
 const multer = require("multer");
 const cors = require("cors");
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swaggerConfig'); 
+
 
 const upload = multer({ dest: "uploads/" }); // Diretório de upload
 
@@ -12,8 +14,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use("/api", apiRoutes);
 
-// Configurar a rota para servir a aplicação React
-// app.use(express.static(path.join(__dirname, "../frontend/publicasd")));
 
 // Rota principal que serve a aplicação React
 app.get("/", (req, res) => {
@@ -21,6 +21,8 @@ app.get("/", (req, res) => {
 });
 
 // Configurar suas rotas de API
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Rota POST para processar o arquivo de preços com Multer
 app.post("/api/pricing", upload.single("pricingFile"), (req, res) => {
